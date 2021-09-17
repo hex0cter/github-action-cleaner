@@ -12,7 +12,7 @@ $ npm install -g github-action-cleaner
 $ github-action-cleaner -h
 usage: github-action-cleaner [-h] [-v] [-o OWNER] [-r REPO] [-t GITHUB_TOKEN]
 
-Example: github-action-cleaner -o hex0cter -r 2fa-otp -t ghp_zfkKFfxQoM6Y8jCYETdwEDdw0fmBtDEOyx1f3DBrm3
+Example: github-action-cleaner -o hex0cter -r github-action-cleaner -t ghp_zfkK**********1f3DBrm3
 
 optional arguments:
   -h, --help            show this help message and exit
