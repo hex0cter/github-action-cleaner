@@ -1,0 +1,26 @@
+{
+  "name": "github-action-cleaner",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/index.js",
+  "bin": "bin/browserstack-guard.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "build": "rm -rf lib && babel src --presets minify --out-dir lib",
+    "prettier": "prettier --write src",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "argparse": "^2.0.1",
+    "chalk": "^4.1.2",
+    "octokit": "^1.5.0",
+    "prompt-sync": "^4.2.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-minify": "^0.5.1",
+    "prettier": "^2.4.1"
+  }
+}
