@@ -1,9 +1,9 @@
 {
   "name": "github-action-cleaner",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "lib/index.js",
-  "bin": "bin/browserstack-guard.js",
+  "bin": "bin/github-action-cleaner",
   "scripts": {
     "start": "node src/index.js",
     "build": "rm -rf lib && babel src --presets minify --out-dir lib",

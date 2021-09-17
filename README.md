@@ -4,12 +4,12 @@ CLI command to clean your old build history in github actions in batch.
 ## Installation
 
 ```
-npm install -g github-action-cleaner
+$ npm install -g github-action-cleaner
 ```
 
 ## Usage
 ```
-github-action-cleaner -h
+$ github-action-cleaner -h
 usage: github-action-cleaner [-h] [-v] [-o OWNER] [-r REPO] [-t GITHUB_TOKEN]
 
 Example: github-action-cleaner -o hex0cter -r 2fa-otp -t ghp_zfkKFfxQoM6Y8jCYETdwEDdw0fmBtDEOyx1f3DBrm3
