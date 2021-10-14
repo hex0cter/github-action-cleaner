@@ -4,6 +4,8 @@ const { version } = require("../package.json");
 const prompt = require("prompt-sync")({ sigint: true });
 const chalk = require("chalk");
 
+const itemsPerPage = 100;
+
 const getInput = (text) => {
   while (true) {
     const value = prompt(text);
@@ -13,7 +15,40 @@ const getInput = (text) => {
   }
 };
 
-const start = async (args) => {
+const getIdsForAllWorkflowRuns = async ({ octokit, owner, repo, workflowId }) => {
+  let response;
+
+  response = await octokit.rest.actions.listWorkflowRuns({
+    owner,
+    repo,
+    workflow_id: workflowId,
+    per_page: 1,
+  });
+  const workflowRunTotalCount = response.data.total_count;
+  console.log(`${workflowRunTotalCount} runs found for this workflow.`);
+
+  let workflowRunIds = [];
+  const totalPages = parseInt(workflowRunTotalCount / itemsPerPage) + 1;
+  for(let pageIndex = 1; pageIndex <= totalPages; pageIndex++) {
+    response = await octokit.rest.actions.listWorkflowRuns({
+      owner,
+      repo,
+      workflow_id: workflowId,
+      per_page: itemsPerPage,
+      page: pageIndex,
+    });
+
+    const ids = response.data.workflow_runs.map((run) => ({
+      id: run.id,
+    }));
+
+    workflowRunIds = workflowRunIds.concat(ids);
+  }
+
+  return workflowRunIds;
+}
+
+const start = async ({ github_token, owner, repo }) => {
   console.log(
     chalk.bold("This script needs your github token to perform actions.")
   );
@@ -23,8 +58,8 @@ const start = async (args) => {
     )}\n`
   );
 
-  const auth = args.github_token || getInput("Enter your github token: ");
-  const octokit = new Octokit({ auth });
+  github_token = github_token || getInput("Enter your github token: ");
+  const octokit = new Octokit({ auth: github_token });
 
   // Compare: https://docs.github.com/en/rest/reference/users#get-the-authenticated-user
   const {
@@ -33,16 +68,15 @@ const start = async (args) => {
 
   console.log(`Welcome, ${chalk.bold(login)}!\n`);
 
-  const owner =
-    args.owner || getInput("Please enter the owner (organization) name: ");
-  const repo = args.repo || getInput("Please enter the repo name: ");
+  owner = owner || getInput("Please enter the owner (organization) name: ");
+  repo = repo || getInput("Please enter the repo name: ");
 
   let response;
 
   response = await octokit.rest.actions.listRepoWorkflows({
     owner,
     repo,
-    per_page: 100,
+    per_page: itemsPerPage,
   });
   const workflowTotalCount = response.data.total_count;
   console.log(`${workflowTotalCount} workflow found for this repo.`);
@@ -57,18 +91,7 @@ const start = async (args) => {
   console.log("Which workflow do you want to clean?");
   const workflowId = getInput("Enter a workflow id: ");
 
-  response = await octokit.rest.actions.listWorkflowRuns({
-    owner,
-    repo,
-    workflow_id: workflowId,
-    per_page: 100,
-  });
-  const workflowRunTotalCount = response.data.total_count;
-  console.log(`${workflowRunTotalCount} runs found for this workflow.`);
-
-  const workflowRunIds = response.data.workflow_runs.map((run) => ({
-    id: run.id,
-  }));
+  const workflowRunIds = await getIdsForAllWorkflowRuns({octokit, owner, repo, workflowId});
 
   workflowRunIds.forEach(async (workflowRun) => {
     console.log(`Removing ${workflowRun.id}...`);

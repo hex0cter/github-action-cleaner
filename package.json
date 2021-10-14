@@ -1,14 +1,13 @@
 {
   "name": "github-action-cleaner",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "",
   "main": "lib/index.js",
   "bin": "bin/github-action-cleaner",
   "scripts": {
-    "start": "node src/index.js",
-    "build": "rm -rf lib && babel src --presets minify --out-dir lib",
+    "build": "rm -rf lib && babel src --out-dir lib",
     "prettier": "prettier --write src",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "bin/github-action-cleaner"
   },
   "author": "",
   "license": "ISC",
