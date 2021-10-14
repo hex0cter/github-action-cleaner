@@ -23,3 +23,7 @@ optional arguments:
   -t GITHUB_TOKEN, --github-token GITHUB_TOKEN
                         Github token from https://github.com/settings/tokens/new?scopes=repo
 ```
+
+The github token needs the following permissions:
+
+<img src='assets/github-token.png'>
