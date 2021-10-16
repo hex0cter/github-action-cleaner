@@ -24,6 +24,6 @@ optional arguments:
                         Github token from https://github.com/settings/tokens/new?scopes=repo
 ```
 
-The github token needs the following permissions:
+The github token can be created [here](https://github.com/settings/tokens/new?scopes=repo) and needs the following permissions:
 
 <img src='assets/github-token.png'>
